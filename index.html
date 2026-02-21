@@ -1,1 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Виртуальный пациент</title>
+</head>
+<body style="font-family: Arial; max-width: 800px; margin: auto;">
+  <h1>👤 Виртуальный пациент</h1>
+  <p><b>Жалобы:</b> кашель, температура 38.5°C, одышка</p>
+  <p><b>Анамнез:</b> 65 лет, ХБП, гипертония</p>
 
+  <h3>1️⃣ Какие вопросы зададите пациенту?</h3>
+  <textarea id="questions" rows="4" style="width:100%"></textarea>
+
+  <h3>2️⃣ Ваш предварительный диагноз?</h3>
+  <input id="diagnosis" style="width:100%; padding:8px">
+
+  <h3>3️⃣ Назначьте лечение</h3>
+  <textarea id="treatment" rows="4" style="width:100%"></textarea>
+
+  <br><br>
+  <button onclick="analyze()" style="padding:10px 20px;">Завершить приём</button>
+
+  <h2>📊 Обратная связь</h2>
+  <div id="feedback"></div>
+
+<script>
+function analyze(){
+  let diagnosis = document.getElementById("diagnosis").value.toLowerCase();
+  let treatment = document.getElementById("treatment").value.toLowerCase();
+
+  let score = 0;
+  let feedback = "";
+
+  // Эталон кейса (задаётся преподавателем)
+  if(diagnosis.includes("пневмони")){
+    score += 1;
+    feedback += "✔ Верно определён диагноз: пневмония<br>";
+  } else {
+    feedback += "❌ Диагноз неточен. Подумайте о внебольничной пневмонии<br>";
+  }
+
+  if(treatment.includes("антибиотик")){
+    score += 1;
+    feedback += "✔ Назначена антибактериальная терапия<br>";
+  } else {
+    feedback += "❌ Отсутствует антибиотикотерапия<br>";
+  }
+
+  if(treatment.includes("доза") || treatment.includes("коррек")){
+    score += 1;
+    feedback += "✔ Учтена коррекция дозы при ХБП<br>";
+  } else {
+    feedback += "⚠ Не указана коррекция дозы при ХБП<br>";
+  }
+
+  feedback += "<br><b>Итоговый балл: " + score + " / 3</b>";
+
+  document.getElementById("feedback").innerHTML = feedback;
+}
+</script>
+</body>
+</html>
